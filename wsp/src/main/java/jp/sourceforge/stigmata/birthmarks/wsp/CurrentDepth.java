@@ -1,5 +1,14 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
+/*
+ * $Id$
+ */
+
+/**
+ * 
+ * @author Haruaki Tamada
+ * @version $Revision$
+ */
 public class CurrentDepth{
     private Opcode opcode;
     private int depth;

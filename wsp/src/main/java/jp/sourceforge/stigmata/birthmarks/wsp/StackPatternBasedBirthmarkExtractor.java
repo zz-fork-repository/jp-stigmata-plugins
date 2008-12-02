@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import jp.sourceforge.stigmata.Birthmark;
+import jp.sourceforge.stigmata.BirthmarkContext;
 import jp.sourceforge.stigmata.BirthmarkElement;
-import jp.sourceforge.stigmata.BirthmarkEnvironment;
 import jp.sourceforge.stigmata.ExtractionUnit;
 import jp.sourceforge.stigmata.birthmarks.ASMBirthmarkExtractor;
 import jp.sourceforge.stigmata.birthmarks.BirthmarkExtractVisitor;
@@ -34,19 +34,19 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
     }
 
     @Override
-    public BirthmarkExtractVisitor createExtractVisitor(ClassWriter writer, Birthmark birthmark, BirthmarkEnvironment environment){
-        return new Visitor(writer, birthmark, environment);
+    public BirthmarkExtractVisitor createExtractVisitor(ClassWriter writer, Birthmark birthmark, BirthmarkContext context){
+        return new Visitor(writer, birthmark, context);
     }
 
     @Override
     public ExtractionUnit[] getAcceptableUnits(){
         return new ExtractionUnit[] {
-            ExtractionUnit.ARCHIVE, ExtractionUnit.PACKAGE, ExtractionUnit.CLASS,
+            ExtractionUnit.CLASS,
         };
     }
 
-    private BirthmarkElement[] buildElement(List<Opcode> opcodes){
-        StackPattern pattern = buildStackPattern(opcodes);
+    private BirthmarkElement[] buildElement(List<Opcode> opcodes, BirthmarkContext context){
+        StackPattern pattern = buildStackPattern(opcodes, context);
         List<BirthmarkElement> elements = new ArrayList<BirthmarkElement>();
 
         StackPattern subpattern = new StackPattern();
@@ -62,13 +62,16 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
         return elements.toArray(new BirthmarkElement[elements.size()]);
     }
 
-    private StackPattern buildStackPattern(List<Opcode> opcodes){ 
+    @SuppressWarnings("unchecked")
+    private StackPattern buildStackPattern(List<Opcode> opcodes, BirthmarkContext context){ 
         Map<Label, Integer> tableMap = new HashMap<Label, Integer>();
         StackPattern pattern = new StackPattern();
+        Map<Integer, Integer> weights = (Map<Integer, Integer>)context.getProperty("birthmarks.wsp.weights");
 
         int currentDepth = 0;
         Integer forwardedStatus = null;
         for(Opcode opcode: opcodes){
+            opcode.setWeight(weights.get(opcode.getOpcode()));
             if(opcode.getCategory() == Opcode.Category.TARGETER){
                 forwardedStatus = tableMap.get(((LabelOpcode)opcode).getLabel());
             }
@@ -96,12 +99,12 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
     private class Visitor extends BirthmarkExtractVisitor{
         private List<Opcode> opcodeList = new ArrayList<Opcode>();
 
-        public Visitor(ClassVisitor visitor, Birthmark birthmark, BirthmarkEnvironment environment){
-            super(visitor, birthmark, environment);
+        public Visitor(ClassVisitor visitor, Birthmark birthmark, BirthmarkContext context){
+            super(visitor, birthmark, context);
         }
 
         public void visitEnd(){
-            BirthmarkElement[] elements = buildElement(opcodeList);
+            BirthmarkElement[] elements = buildElement(opcodeList, getContext());
             for(BirthmarkElement element: elements){
                 addElement(element);
             }

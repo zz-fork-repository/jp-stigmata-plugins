@@ -6,6 +6,7 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
 
 import jp.sourceforge.stigmata.BirthmarkComparator;
 import jp.sourceforge.stigmata.BirthmarkExtractor;
+import jp.sourceforge.stigmata.BirthmarkPreprocessor;
 import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
 
 /**
@@ -28,6 +29,7 @@ import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
 public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     private BirthmarkComparator comparator = new StackPatternBasedBirthmarkComparator(this);
     private BirthmarkExtractor extractor = new StackPatternBasedBirthmarkExtractor(this);
+    private BirthmarkPreprocessor preprocessor = new StackPatternBasedBirthmarkPreprocessor(this);
 
     @Override
     public String getDefaultDescription(){
@@ -49,4 +51,8 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
         return extractor;
     }
 
+    @Override
+    public BirthmarkPreprocessor getPreprocessor(){
+        return preprocessor;
+    }
 }
