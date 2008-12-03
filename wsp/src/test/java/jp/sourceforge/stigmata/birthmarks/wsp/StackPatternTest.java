@@ -47,16 +47,16 @@ public class StackPatternTest{
     public void testCalculateWeightedCommonSubsequence(){
         StackPattern pattern2 = new StackPattern();
         
-        pattern2.update(new CurrentDepth(1, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7)));
-        pattern2.update(new CurrentDepth(2, new Opcode(  4, "iconst_1",     0,  1, Opcode.Category.NORMAL, 1)));
-        pattern2.update(new CurrentDepth(1, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4)));
-        pattern2.update(new CurrentDepth(1, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1)));
-        pattern2.update(new CurrentDepth(2, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7)));
-        pattern2.update(new CurrentDepth(3, new Opcode(  5, "iconst_2",     0,  1, Opcode.Category.NORMAL, 1)));
-        pattern2.update(new CurrentDepth(2, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4)));
-        pattern2.update(new CurrentDepth(2, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1)));
-        pattern2.update(new CurrentDepth(1, new Opcode( 96, "iadd",         0, -1, Opcode.Category.NORMAL, 3)));
-        pattern2.update(new CurrentDepth(0, new Opcode(172, "ireturn",      0, -1, Opcode.Category.NORMAL, 2)));
+        pattern2.update(1, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
+        pattern2.update(2, new Opcode(  4, "iconst_1",     0,  1, Opcode.Category.NORMAL, 1));
+        pattern2.update(1, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
+        pattern2.update(1, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
+        pattern2.update(2, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
+        pattern2.update(3, new Opcode(  5, "iconst_2",     0,  1, Opcode.Category.NORMAL, 1));
+        pattern2.update(2, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
+        pattern2.update(2, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
+        pattern2.update(1, new Opcode( 96, "iadd",         0, -1, Opcode.Category.NORMAL, 3));
+        pattern2.update(0, new Opcode(172, "ireturn",      0, -1, Opcode.Category.NORMAL, 2));
 
         Assert.assertEquals(21, pattern.calculateWeight(pattern2));
         Assert.assertEquals(21, pattern2.calculateWeight(pattern));

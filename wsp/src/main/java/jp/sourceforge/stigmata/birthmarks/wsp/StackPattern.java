@@ -1,10 +1,19 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
+/*
+ * $Id$
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 
+ * @author Haruaki Tamada
+ * @version $Revision$
+ */
 public class StackPattern implements Iterable<CurrentDepth>{
     private List<CurrentDepth> depthList = new ArrayList<CurrentDepth>();
     private int weight = -1;

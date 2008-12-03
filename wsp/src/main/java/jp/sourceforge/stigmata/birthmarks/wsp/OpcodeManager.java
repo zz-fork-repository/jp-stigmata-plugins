@@ -25,7 +25,7 @@ public class OpcodeManager{
 
     static{
         try{
-            URL location = StackPatternBasedBirthmarkExtractor.class.getResource("/META-INF/bytecode.def");
+            URL location = OpcodeManager.class.getResource("/META-INF/bytecode.def");
             BufferedReader in = new BufferedReader(new InputStreamReader(location.openStream()));
             CsvParser parser = new CsvParser(in);
             while(parser.hasNext()){

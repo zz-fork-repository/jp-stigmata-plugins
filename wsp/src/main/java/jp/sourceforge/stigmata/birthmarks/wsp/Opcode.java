@@ -65,6 +65,9 @@ public class Opcode implements Serializable{
     }
 
     public void addLabel(Label label){
+        if(label == null){
+            throw new NullPointerException();
+        }
         if(category != Category.BRANCH){
             throw new IllegalStateException("this method allows only branch category");
         }
@@ -72,12 +75,23 @@ public class Opcode implements Serializable{
     }
 
     public void setLabels(Label[] labelArray){
+        if(labelArray == null){
+            throw new NullPointerException();
+        }
         if(category != Category.BRANCH){
             throw new IllegalStateException("this method allows only branch category");
         }
+        labels.clear();
         for(Label label: labelArray){
+            if(label == null){
+                throw new NullPointerException();
+            }
             labels.add(label);
         }
+    }
+
+    public Label getLabel(int index){
+        return labels.get(index);
     }
 
     public Iterator<Label> labels(){
