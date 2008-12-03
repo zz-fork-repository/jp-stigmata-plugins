@@ -24,4 +24,8 @@ public class StackPatternBasedBirthmarkElement extends BirthmarkElement{
     public StackPattern getPattern(){
         return pattern;
     }
+
+    public int getWeight(){
+        return pattern.getWeight();
+    }
 }
