@@ -16,7 +16,7 @@
 15,dconst_1,0,2,NORMAL
 16,bipush,1,1,NORMAL
 17,sipush,2,1,NORMAL
-17,ldc,1,1,NORMAL
+18,ldc,1,1,NORMAL
 19,ldc_w,2,1,NORMAL
 20,ldc2_w,2,2,NORMAL
 21,iload,1,1,NORMAL
