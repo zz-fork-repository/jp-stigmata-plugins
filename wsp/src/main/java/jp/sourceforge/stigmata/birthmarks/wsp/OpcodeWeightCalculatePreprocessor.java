@@ -27,8 +27,8 @@ import org.objectweb.asm.MethodVisitor;
  * @author Haruaki Tamada
  * @version $Revision$
  */
-public class StackPatternBasedBirthmarkPreprocessor extends AbstractBirthmarkPreprocessor{
-    public StackPatternBasedBirthmarkPreprocessor(BirthmarkSpi spi){
+public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreprocessor{
+    public OpcodeWeightCalculatePreprocessor(BirthmarkSpi spi){
         super(spi);
     }
 

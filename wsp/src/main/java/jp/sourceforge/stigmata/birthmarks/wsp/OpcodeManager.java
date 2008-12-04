@@ -5,7 +5,6 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  */
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
@@ -20,10 +19,13 @@ import jp.sourceforge.talisman.csvio.CsvParser;
  * @version $Revision$
  */
 public class OpcodeManager{
-    private static final Map<Integer, Opcode> OPCODE_MAP = new HashMap<Integer, Opcode>();
+    private Map<Integer, Opcode> opcodeMap = new HashMap<Integer, Opcode>();
     private static OpcodeManager manager = new OpcodeManager();
 
-    static{
+    /**
+     * private constructor for singleton pattern.
+     */
+    private OpcodeManager(){
         try{
             URL location = OpcodeManager.class.getResource("/META-INF/bytecode.def");
             BufferedReader in = new BufferedReader(new InputStreamReader(location.openStream()));
@@ -37,18 +39,12 @@ public class OpcodeManager{
                         Integer.parseInt(values[2]),
                         Integer.parseInt(values[3]), values[4]
                     );
-                    OPCODE_MAP.put(def.getOpcode(), def);
+                    opcodeMap.put(def.getOpcode(), def);
                 }
             }
-        } catch(IOException e){
+        } catch(Exception e){
             throw new InternalError(e.getMessage());
         }
-    }
-
-    /**
-     * private constructor for singleton pattern.
-     */
-    private OpcodeManager(){
     }
 
     public static OpcodeManager getInstance(){
@@ -56,6 +52,6 @@ public class OpcodeManager{
     }
 
     public Opcode getOpcode(int opcode){
-        return OPCODE_MAP.get(opcode);
+        return opcodeMap.get(opcode);
     }
 }

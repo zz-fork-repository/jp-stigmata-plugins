@@ -46,26 +46,26 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
     }
 
     private BirthmarkElement[] buildElement(List<Opcode> opcodes, BirthmarkContext context){
-        StackPattern pattern = buildStackPattern(opcodes, context);
+        List<CurrentDepth> pattern = buildStackPattern(opcodes, context);
         List<BirthmarkElement> elements = new ArrayList<BirthmarkElement>();
 
-        StackPattern subpattern = new StackPattern();
+        List<CurrentDepth> subPattern = new ArrayList<CurrentDepth>();
         for(CurrentDepth depth: pattern){
-            subpattern.update(depth);
+            subPattern.add(depth);
             if(depth.getDepth() == 0){
-                elements.add(new StackPatternBasedBirthmarkElement(subpattern));
-                subpattern = new StackPattern();
+                elements.add(new StackPatternBasedBirthmarkElement(subPattern.toArray(new CurrentDepth[subPattern.size()])));
+                subPattern.clear();
             }
         }
-        elements.add(new StackPatternBasedBirthmarkElement(subpattern));
+        elements.add(new StackPatternBasedBirthmarkElement(subPattern.toArray(new CurrentDepth[subPattern.size()])));
 
         return elements.toArray(new BirthmarkElement[elements.size()]);
     }
 
     @SuppressWarnings("unchecked")
-    private StackPattern buildStackPattern(List<Opcode> opcodes, BirthmarkContext context){ 
+    private List<CurrentDepth> buildStackPattern(List<Opcode> opcodes, BirthmarkContext context){ 
         Map<Label, Integer> tableMap = new HashMap<Label, Integer>();
-        StackPattern pattern = new StackPattern();
+        List<CurrentDepth> pattern = new ArrayList<CurrentDepth>();
         Map<Integer, Integer> weights = (Map<Integer, Integer>)context.getProperty("birthmarks.wsp.weights");
 
         int currentDepth = 0;
@@ -84,7 +84,7 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
                 }
                 forwardedStatus = null;
 
-                pattern.update(currentDepth, opcode);
+                pattern.add(new CurrentDepth(currentDepth, opcode));
                 if(opcode.getCategory() == Opcode.Category.BRANCH){
                     for(Iterator<Label> i = opcode.labels(); i.hasNext(); ){
                         Label label = i.next();

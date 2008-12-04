@@ -25,4 +25,8 @@ public class CurrentDepth{
     public Opcode getOpcode(){
         return opcode;
     }
+
+    public String toString(){
+        return String.format("%d:%d:%d:%d", opcode.getOpcode(), depth, opcode.getWeight(), opcode.getAct());
+    }
 }

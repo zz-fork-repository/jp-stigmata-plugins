@@ -13,13 +13,12 @@ import org.junit.Test;
  * @author Haruaki Tamada
  * @version $Revision$
  */
-public class StackPatternBasedBirthmarkComparatorTest{
-    private StackPatternBasedBirthmarkComparator comparator;
+public class WeightCalculatorTest{
+    private WeightCalculator calculator;
 
     @Before
     public void setup(){
-        StackPatternBasedBirthmarkService service = new StackPatternBasedBirthmarkService();
-        comparator = new StackPatternBasedBirthmarkComparator(service);
+        calculator = new WeightCalculator();
     }
 
     @Test
@@ -30,7 +29,7 @@ public class StackPatternBasedBirthmarkComparatorTest{
             {  9,  6, 12,  3, },
             {  6,  9, 30,  9, },
         };
-        Assert.assertEquals(60, comparator.calculateWeight(wcs));
+        Assert.assertEquals(60, calculator.calculateWeight(wcs));
     }
 
     @Test
@@ -41,6 +40,6 @@ public class StackPatternBasedBirthmarkComparatorTest{
             {  2, 10,  0,  3, },
             {  0,  2,  3,  9, },
         };
-        Assert.assertEquals(50, comparator.calculateWeight(wcs));
+        Assert.assertEquals(50, calculator.calculateWeight(wcs));
     }
 }

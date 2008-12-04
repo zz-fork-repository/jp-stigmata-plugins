@@ -5,6 +5,7 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  */
 
 import jp.sourceforge.stigmata.BirthmarkComparator;
+import jp.sourceforge.stigmata.BirthmarkElement;
 import jp.sourceforge.stigmata.BirthmarkExtractor;
 import jp.sourceforge.stigmata.BirthmarkPreprocessor;
 import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
@@ -27,9 +28,9 @@ import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
  * @version $Revision$
  */
 public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
-    private BirthmarkComparator comparator = new StackPatternBasedBirthmarkComparator(this);
+    private BirthmarkPreprocessor preprocessor = new OpcodeWeightCalculatePreprocessor(this);
     private BirthmarkExtractor extractor = new StackPatternBasedBirthmarkExtractor(this);
-    private BirthmarkPreprocessor preprocessor = new StackPatternBasedBirthmarkPreprocessor(this);
+    private BirthmarkComparator comparator = new StackPatternBasedBirthmarkComparator(this);
 
     @Override
     public String getDefaultDescription(){
@@ -54,5 +55,10 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     @Override
     public BirthmarkPreprocessor getPreprocessor(){
         return preprocessor;
+    }
+
+    @Override
+    public BirthmarkElement buildBirthmarkElement(String value){
+        return new StackPatternBasedBirthmarkElement(value);
     }
 }
