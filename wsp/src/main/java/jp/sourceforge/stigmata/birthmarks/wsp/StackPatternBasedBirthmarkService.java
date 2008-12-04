@@ -38,6 +38,11 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     }
 
     @Override
+    public boolean isUserDefined(){
+        return false;
+    }
+
+    @Override
     public String getType(){
         return "wsp";
     }
@@ -60,5 +65,10 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     @Override
     public BirthmarkElement buildBirthmarkElement(String value){
         return new StackPatternBasedBirthmarkElement(value);
+    }
+
+    @Override
+    public String getDisplayType(){
+        return "Weighted Stack Pattern Based Birthmark";
     }
 }
