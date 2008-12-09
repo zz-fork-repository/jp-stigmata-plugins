@@ -96,7 +96,7 @@ public class StackPatternBasedBirthmarkElement extends BirthmarkElement implemen
             }
             this.weight = w;
         }
-        return weight;        
+        return weight;
     }
 
     private static String getStringRepresentation(CurrentDepth[] depth){

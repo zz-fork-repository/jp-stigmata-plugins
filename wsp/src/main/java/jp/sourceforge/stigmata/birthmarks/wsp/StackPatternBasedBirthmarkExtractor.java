@@ -61,7 +61,7 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
 
         return elements.toArray(new BirthmarkElement[elements.size()]);
     }
-
+    
     @SuppressWarnings("unchecked")
     private List<CurrentDepth> buildStackPattern(List<Opcode> opcodes, BirthmarkContext context){ 
         Map<Label, Integer> tableMap = new HashMap<Label, Integer>();
@@ -71,11 +71,11 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
         int currentDepth = 0;
         Integer forwardedStatus = null;
         for(Opcode opcode: opcodes){
-            opcode.setWeight(weights.get(opcode.getOpcode()));
             if(opcode.getCategory() == Opcode.Category.TARGETER){
                 forwardedStatus = tableMap.get(((LabelOpcode)opcode).getLabel());
             }
             else{
+                opcode.setWeight(weights.get(opcode.getOpcode()));
                 if(forwardedStatus == null){
                     currentDepth += opcode.getAct();
                 }

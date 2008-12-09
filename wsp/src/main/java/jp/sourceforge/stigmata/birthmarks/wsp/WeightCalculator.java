@@ -35,7 +35,7 @@ public class WeightCalculator{
                 for(int j = 0; j < wcs[0].length; j++){
                     availableFlag[row][j] = false;
                 }
-                weight += wcs[column][row];
+                weight += wcs[row][column];
             }
         }
 

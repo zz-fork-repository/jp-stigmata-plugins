@@ -120,4 +120,8 @@ public class Opcode implements Serializable{
     public int getWeight(){
         return weight;
     }
+
+    public String toString(){
+        return String.format("%d:%s:%d:%f(%s)", getOpcode(), getName(), getAct(), getWeight(), getCategory());
+    }
 }

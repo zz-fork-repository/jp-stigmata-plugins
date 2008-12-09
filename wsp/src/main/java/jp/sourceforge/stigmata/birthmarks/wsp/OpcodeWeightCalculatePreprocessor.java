@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jp.sourceforge.stigmata.BirthmarkContext;
 import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkPreprocessor;
@@ -36,7 +38,10 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
     public void preprocess(ClassFileArchive[] targets, BirthmarkContext context){
         Map<Integer, Integer> targetMap = new HashMap<Integer, Integer>();
 
-        int classCount = readOpcodes(targets, targetMap);
+        int classCount = 0;
+        for(ClassFileArchive archive: targets){
+            classCount += readOpcodes(archive, targetMap);
+        }
 
         Map<Integer, Integer> weights = new HashMap<Integer, Integer>();
         for(Map.Entry<Integer, Integer> entry: targetMap.entrySet()){
@@ -47,46 +52,48 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
                 c = count;
             }
 
-            weights.put(opcode, (int)Math.log(classCount / c));
+            weights.put(opcode, (int)Math.round(Math.log(classCount / c)));
         }
 
         context.putProperty("birthmarks.wsp.weights", weights);
     }
 
-    private int readOpcodes(ClassFileArchive[] targets, Map<Integer, Integer> targetMap){
+    private int readOpcodes(ClassFileArchive archive, Map<Integer, Integer> targetMap){
         int count = 0;
-        for(ClassFileArchive archive: targets){
-            for(ClassFileEntry entry: archive){
-                count++;
-                final List<Opcode> opcodes = new ArrayList<Opcode>();
-                try{
-                    InputStream in = entry.getLocation().openStream();
+        for(ClassFileEntry entry: archive){
+            count++;
+            final List<Opcode> opcodes = new ArrayList<Opcode>();
+            try{
+                InputStream in = entry.getLocation().openStream();
 
-                    ClassReader reader = new ClassReader(in);
-                    ClassWriter writer = new ClassWriter(false);
-                    ClassAdapter opcodeExtractVisitor = new ClassAdapter(writer){
-                        @Override
-                        public MethodVisitor visitMethod(int arg0, String arg1, String arg2, String arg3, String[] arg4){
-                            OpcodeExtractionMethodVisitor visitor =
-                                new OpcodeExtractionMethodVisitor(super.visitMethod(arg0, arg1, arg2, arg3, arg4), opcodes);
-                            return visitor;
-                        }
-                    };
-                    reader.accept(opcodeExtractVisitor, false);
-
-                    for(Opcode opcode: opcodes){
-                        if(opcode.getCategory() != Opcode.Category.TARGETER){
-                            Integer i = targetMap.get(opcode.getOpcode());
-                            if(i == null){
-                                i = 0;
-                            }
-                            i = i + 1;
-                            targetMap.put(opcode.getOpcode(), i);
-                        }
+                ClassReader reader = new ClassReader(in);
+                ClassWriter writer = new ClassWriter(false);
+                ClassAdapter opcodeExtractVisitor = new ClassAdapter(writer){
+                    @Override
+                    public MethodVisitor visitMethod(int arg0, String arg1, String arg2, String arg3, String[] arg4){
+                        OpcodeExtractionMethodVisitor visitor =
+                            new OpcodeExtractionMethodVisitor(super.visitMethod(arg0, arg1, arg2, arg3, arg4), opcodes);
+                        return visitor;
                     }
+                };
+                reader.accept(opcodeExtractVisitor, false);
 
-                } catch(IOException e){
+                Set<Integer> set = new HashSet<Integer>();
+                for(Opcode opcode: opcodes){
+                    if(opcode.getCategory() != Opcode.Category.TARGETER){
+                        set.add(opcode.getOpcode());
+                    }
                 }
+
+                for(Integer i: set){
+                    Integer v = targetMap.get(i);
+                    if(v == null){
+                        v = 0;
+                    }
+                    v = v + 1;
+                    targetMap.put(i, v);
+                }
+            } catch(IOException e){
             }
         }
         return count;

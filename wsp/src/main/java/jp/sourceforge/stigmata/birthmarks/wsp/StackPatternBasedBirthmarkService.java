@@ -43,6 +43,11 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     }
 
     @Override
+    public boolean isExpert(){
+        return false;
+    }
+
+    @Override
     public String getType(){
         return "wsp";
     }
