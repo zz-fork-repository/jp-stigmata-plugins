@@ -67,7 +67,7 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
                 InputStream in = entry.getLocation().openStream();
 
                 ClassReader reader = new ClassReader(in);
-                ClassWriter writer = new ClassWriter(false);
+                ClassWriter writer = new ClassWriter(0);
                 ClassAdapter opcodeExtractVisitor = new ClassAdapter(writer){
                     @Override
                     public MethodVisitor visitMethod(int arg0, String arg1, String arg2, String arg3, String[] arg4){
@@ -76,7 +76,7 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
                         return visitor;
                     }
                 };
-                reader.accept(opcodeExtractVisitor, false);
+                reader.accept(opcodeExtractVisitor, 0);
 
                 Set<Integer> set = new HashSet<Integer>();
                 for(Opcode opcode: opcodes){
