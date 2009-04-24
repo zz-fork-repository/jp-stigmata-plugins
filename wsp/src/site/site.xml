@@ -7,10 +7,6 @@
   </bannerLeft>
 
   <body>
-    <links>
-      <item name="wsp" href="http://stigmata.sourceforge.jp/plugins/wsp" />
-    </links>
-
     <menu name="WSP" inherit="top">
       <item name="Introduction"        href="index.html"/>
     </menu>
