@@ -9,7 +9,7 @@
   <groupId>jp.sourceforge.stigmata.plugins</groupId>
   <artifactId>wsp</artifactId>
   <name>wsp</name>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <url>http://stigmata.sourceforge.jp/plugins/wsp/</url>
 
   <dependencies>
@@ -55,10 +55,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <scm>
-    <connection>scm:svn:http://svn.sourceforge.jp/svnroot/stigmata/plugins/tags/wsp/wsp-1.0.0</connection>
-    <developerConnection>scm:svn:svn+ssh://tama3@svn.sourceforge.jp/svnroot/stigmata/plugins/tags/wsp/wsp-1.0.0</developerConnection>
-    <url>http://svn.sourceforge.jp/svnroot/stigmata/plugins/tags/wsp/wsp-1.0.0</url>
-  </scm>
 </project>
