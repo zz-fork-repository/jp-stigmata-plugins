@@ -1,0 +1,20 @@
+ ----
+ Stigmata Plugins
+ ----
+ Haruaki Tamada
+ ----
+ 2009-04-24
+ ----
+
+Overview
+
+ This product includes plugins of Stigmata. The plugin of Stigmata is
+extract/compare birthmarks from Java class files directly.
+
+Install Plugin to Stigmata
+
+ Put plugin jar file into <plugin> folder in the setting folder of
+Stigmata.  The setting folder of stigmata is opened by selecting the
+menu item of Stigmata.
+
+

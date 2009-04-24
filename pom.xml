@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>jp.sourceforge.stigmata</groupId>
@@ -13,7 +16,9 @@
 
   <modules>
     <module>wsp</module>
+<!--
     <module>cfs</module>
+-->
   </modules>
 
   <issueManagement>
@@ -31,8 +36,8 @@
   </developers>
 
   <organization>
-    <name>Stigmata project</name>
-    <url>http://stigmata.sourceforge.jp</url>
+    <name>Stigmata Plugins Project</name>
+    <url>http://stigmata.sourceforge.jp/plugins/</url>
   </organization>
 
   <licenses>
@@ -74,9 +79,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.sourceforge.jp/svnroot/stigmata/</connection>
-    <developerConnection>scm:svn:svn+ssh://tama3@svn.sourceforge.jp/svnroot/stigmata/</developerConnection>
-    <url>http://svn.sourceforge.jp/svnroot/stigmata/</url>
+    <connection>scm:svn:http://svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/</connection>
+    <developerConnection>scm:svn:svn+ssh://tama3@svn.sourceforge.jp/svnroot/stigmata/plugins/trunk</developerConnection>
+    <url>http://svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/</url>
   </scm>
 
   <build>
