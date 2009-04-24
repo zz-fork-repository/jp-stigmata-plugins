@@ -1,0 +1,19 @@
+ ----
+ Introduction of WSP
+ ----
+ Haruaki Tamada
+ ----
+ 2009-04-24
+ ----
+
+WSP
+
+ WSP (Weight Stack Pattern) Birthmark is defined by Lim et. al. in following article.
+
+ * Hyun-il Lim, Heewan Park, Seokwoo Choi, Taisook Han, ``Detecting
+   Theft of Java Applications via a Static Birthmark Based on Weighted
+   Stack Patterns,'' IEICE Transactions on Information and Systems,
+   Vol.E91-D No.9 pp.2323-2332, September 2008.
+
+ []
+

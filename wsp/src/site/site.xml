@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="wsp">
+  <bannerLeft>
+    <name>Weight Stack Pattern Birthmark</name>
+    <href>http://stigmata.sourceforge.jp/plugins/wsp/</href>
+  </bannerLeft>
+
+  <body>
+    <links>
+      <item name="wsp" href="http://stigmata.sourceforge.jp/plugins/wsp" />
+    </links>
+
+    <menu name="WSP" inherit="top">
+      <item name="Introduction"        href="index.html"/>
+    </menu>
+
+    <menu ref="reports"/>
+
+  </body>
+</project>
