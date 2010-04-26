@@ -1,4 +1,4 @@
-package jp.sourceforge.stigmata.birthmarks.wsp;
+package jp.sourceforge.stigmata.birthmarks;
 
 /*
  * $Id$
