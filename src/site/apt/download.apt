@@ -1,0 +1,61 @@
+ ----
+ Download
+ ----
+ Haruaki Tamada
+ ----
+ 2009-06-23
+ ----
+
+Download
+
+*License
+
+ Weight Stack Pattern Birthmark (Stigmata Plugin)
+
+ Apache License 2.0
+
+ Copyright (C) 2006-2009  Haruaki TAMADA, Ph.D.
+
+ Licensed under the Apache License, Version 2.0 (the "License"); you
+may not use this file except in compliance with the License. You may
+obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing
+permissions and limitations under the License.
+
+*Requirements
+
+ *{{{http://stigmata.sourceforge.jp/}Stigmata}} Runtime and its dependencies.
+
+ []
+
+*Manually download
+
+ We can download release build from {{{http://sourceforge.jp/}sourceforge.jp}}. 
+
+ {{{https://sourceforge.jp/projects/stigmata/releases/}Download}}
+
+*SCM
+
+**Subversion
+
+ The source can be checked out anonymously from Subversion.
+
+----
+$ svn checkout http://svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/wsp wsp
+----
+
+**Web access
+
+ We can browse the source code from following link.
+
+ {{http://sourceforge.jp/projects/stigmata/svn/view/plugins/trunk/wsp/}}
+
+*Online update
+
+ See {{{install.html#Automatically install}Automatically install}}.

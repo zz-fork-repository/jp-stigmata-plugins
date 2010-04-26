@@ -32,9 +32,16 @@
       <item name="wsp" href="http://stigmata.sourceforge.jp/plugins/wsp" />
     </links>
 
-    <menu ref="modules"/>
+    <menu name="Stigmata Plugins">
+      <item name="Overview"             href="index.html"/>
+      <item name="How to Install"       href="install.html"/>
+      <item name="Download"             href="download.html"/>
+      <item name="How to Create Plugin" href="create.html"/>
+    </menu>
 
-    <menu ref="parent"/>
+    <menu ref="modules" />
+
+    <menu ref="parent" />
 
     <menu name="Links">
       <item name="Stigmata"         href="http://stigmata.sourceforge.jp/"/>

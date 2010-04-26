@@ -11,10 +11,36 @@ Overview
  This product includes plugins of Stigmata. The plugin of Stigmata is
 extract/compare birthmarks from Java class files directly.
 
-Install Plugin to Stigmata
 
- Put plugin jar file into <plugin> folder in the setting folder of
-Stigmata.  The setting folder of stigmata is opened by selecting the
-menu item of Stigmata.
+Modules
 
+*wsp
 
+ WSP (Weight Stack Pattern) based birthmark. This birthmark is defined
+in following article.
+
+ * Hyun-il Lim, Heewan Park, Seokwoo Choi, Taisook Han, ``Detecting
+   Theft of Java Applications via a Static Birthmark Based on Weighted
+   Stack Patterns,'' IEICE Transactions on Information and Systems,
+   Vol.E91-D No.9 pp.2323-2332, September 2008.
+
+*sapit
+
+ Static API Trace birthmark. This birthmark is defined in following
+article. (Not available yet)
+
+ * Heewan Park, Seokwoo Choi, Hyun-il Lim, and Taisook Han,
+   ``Detecting Java Theft Based on Static API Trace Birthmark,'' In
+   Proc. of the 3rd International Workshop on Security (IWSEC2008), LNCS
+   5312, pp.121-135, November 2008.
+
+*osb
+
+ Operand Stack Behaviors based static birthmark. This birthmark is
+defined in following article. (Not available yet)
+
+ * Heewan Park, Hyun-il Lim, Seokwoo Choi, and Taisook Han, ``A Static
+   Java Birthmark Based on Operand Stack Behaviors,'' In
+   Proc. International Conference on Information Security and
+   Assurance (ICISA2008), IEEE Computer Society, pp.133--136, April
+   2008 (Los Alamitos, CA, USA).
