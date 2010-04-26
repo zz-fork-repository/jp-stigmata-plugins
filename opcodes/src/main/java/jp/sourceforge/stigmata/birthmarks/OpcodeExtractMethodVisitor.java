@@ -1,4 +1,4 @@
-package jp.sourceforge.stigmata.birthmarks.wsp;
+package jp.sourceforge.stigmata.birthmarks;
 
 /*
  * $Id$
@@ -18,25 +18,25 @@ import org.objectweb.asm.Type;
  * @author Haruaki TAMADA
  * @version $Revision$ 
  */
-public class OpcodeExtractionMethodVisitor extends MethodAdapter{
+public class OpcodeExtractMethodVisitor extends MethodAdapter{
     private List<Opcode> opcodes;
     private OpcodeManager manager = OpcodeManager.getInstance();
-    private List<OpcodeExtractionFinishListener> listeners = new ArrayList<OpcodeExtractionFinishListener>();
+    private List<OpcodeExtractListener> listeners = new ArrayList<OpcodeExtractListener>();
 
-    public OpcodeExtractionMethodVisitor(MethodVisitor visitor){
+    public OpcodeExtractMethodVisitor(MethodVisitor visitor){
         this(visitor, new ArrayList<Opcode>());
     }
 
-    public OpcodeExtractionMethodVisitor(MethodVisitor visitor, List<Opcode> opcodes){
+    public OpcodeExtractMethodVisitor(MethodVisitor visitor, List<Opcode> opcodes){
         super(visitor);
         this.opcodes = opcodes;
     }
 
-    public void addOpcodeExtractionFinishListener(OpcodeExtractionFinishListener listener){
+    public void addOpcodeExtractListener(OpcodeExtractionFinishListener listener){
         listeners.add(listener);
     }
 
-    public void removeOpcodeExtractionFinishListener(OpcodeExtractionFinishListener listener){
+    public void removeOpcodeExtractListener(OpcodeExtractionFinishListener listener){
         listeners.add(listener);
     }
 
@@ -165,7 +165,7 @@ public class OpcodeExtractionMethodVisitor extends MethodAdapter{
     @Override
     public void visitEnd(){
         for(OpcodeExtractionFinishListener listener: listeners){
-            listener.finishExtractionOpcodes(opcodes);
+            listener.extractionOpcodesFinished(opcodes);
         }
     }
 }
