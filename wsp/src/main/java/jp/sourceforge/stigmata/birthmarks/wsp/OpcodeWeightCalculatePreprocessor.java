@@ -15,10 +15,10 @@ import java.util.Set;
 
 import jp.sourceforge.stigmata.BirthmarkContext;
 import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkPreprocessor;
+import jp.sourceforge.stigmata.birthmarks.Opcode;
+import jp.sourceforge.stigmata.birthmarks.OpcodeExtractMethodVisitor;
 import jp.sourceforge.stigmata.digger.ClassFileArchive;
 import jp.sourceforge.stigmata.digger.ClassFileEntry;
-import jp.sourceforge.stigmata.plugins.Opcode;
-import jp.sourceforge.stigmata.plugins.OpcodeExtractMethodVisitor;
 import jp.sourceforge.stigmata.spi.BirthmarkSpi;
 
 import org.objectweb.asm.ClassAdapter;

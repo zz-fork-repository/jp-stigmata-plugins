@@ -10,8 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import jp.sourceforge.stigmata.BirthmarkElement;
-import jp.sourceforge.stigmata.plugins.Opcode;
-import jp.sourceforge.stigmata.plugins.OpcodeManager;
+import jp.sourceforge.stigmata.birthmarks.Opcode;
+import jp.sourceforge.stigmata.birthmarks.OpcodeManager;
 
 /**
  *
@@ -41,8 +41,7 @@ public class StackPatternBasedBirthmarkElement extends BirthmarkElement implemen
                 int weight = Integer.parseInt(depthStringArray[2]);
                 int act = Integer.parseInt(depthStringArray[3]);
 
-                Opcode o = new Opcode(OpcodeManager.getInstance().getOpcode(opcode));
-                o.setWeight(weight);
+                WSPOpcode o = new WSPOpcode(OpcodeManager.getInstance().getOpcode(opcode), weight);
                 if(o.getCategory() == Opcode.Category.OBJECT || o.getCategory() == Opcode.Category.INVOKE){
                     o.setAct(act);
                 }

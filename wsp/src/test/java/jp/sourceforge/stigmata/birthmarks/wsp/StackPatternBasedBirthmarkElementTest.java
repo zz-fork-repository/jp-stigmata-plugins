@@ -4,7 +4,7 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  * $Id$
  */
 
-import jp.sourceforge.stigmata.plugins.Opcode;
+import jp.sourceforge.stigmata.birthmarks.Opcode;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,13 +22,13 @@ public class StackPatternBasedBirthmarkElementTest{
     public void setup(){
         CurrentDepth[] depthList = new CurrentDepth[7];
 
-        depthList[0] = new CurrentDepth(1, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
-        depthList[1] = new CurrentDepth(2, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
-        depthList[2] = new CurrentDepth(3, new Opcode(  4, "iconst_1",     0,  1, Opcode.Category.NORMAL, 1));
-        depthList[3] = new CurrentDepth(2, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
-        depthList[4] = new CurrentDepth(2, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
-        depthList[5] = new CurrentDepth(1, new Opcode(104, "imul",         0, -1, Opcode.Category.NORMAL, 6));
-        depthList[6] = new CurrentDepth(0, new Opcode(172, "ireturn",      0, -1, Opcode.Category.NORMAL, 2));
+        depthList[0] = new CurrentDepth(1, new WSPOpcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
+        depthList[1] = new CurrentDepth(2, new WSPOpcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
+        depthList[2] = new CurrentDepth(3, new WSPOpcode(  4, "iconst_1",     0,  1, Opcode.Category.NORMAL, 1));
+        depthList[3] = new CurrentDepth(2, new WSPOpcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
+        depthList[4] = new CurrentDepth(2, new WSPOpcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
+        depthList[5] = new CurrentDepth(1, new WSPOpcode(104, "imul",         0, -1, Opcode.Category.NORMAL, 6));
+        depthList[6] = new CurrentDepth(0, new WSPOpcode(172, "ireturn",      0, -1, Opcode.Category.NORMAL, 2));
 
         element = new StackPatternBasedBirthmarkElement(depthList);
     }
@@ -66,16 +66,16 @@ public class StackPatternBasedBirthmarkElementTest{
     @Test
     public void testCalculateWeightedCommonSubsequence(){
         CurrentDepth[] depthList = new CurrentDepth[10];
-        depthList[0] = new CurrentDepth(1, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
-        depthList[1] = new CurrentDepth(2, new Opcode(  4, "iconst_1",     0,  1, Opcode.Category.NORMAL, 1));
-        depthList[2] = new CurrentDepth(1, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
-        depthList[3] = new CurrentDepth(1, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
-        depthList[4] = new CurrentDepth(2, new Opcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
-        depthList[5] = new CurrentDepth(3, new Opcode(  5, "iconst_2",     0,  1, Opcode.Category.NORMAL, 1));
-        depthList[6] = new CurrentDepth(2, new Opcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
-        depthList[7] = new CurrentDepth(2, new Opcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
-        depthList[8] = new CurrentDepth(1, new Opcode( 96, "iadd",         0, -1, Opcode.Category.NORMAL, 3));
-        depthList[9] = new CurrentDepth(0, new Opcode(172, "ireturn",      0, -1, Opcode.Category.NORMAL, 2));
+        depthList[0] = new CurrentDepth(1, new WSPOpcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
+        depthList[1] = new CurrentDepth(2, new WSPOpcode(  4, "iconst_1",     0,  1, Opcode.Category.NORMAL, 1));
+        depthList[2] = new CurrentDepth(1, new WSPOpcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
+        depthList[3] = new CurrentDepth(1, new WSPOpcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
+        depthList[4] = new CurrentDepth(2, new WSPOpcode( 26, "iload_0",      0,  1, Opcode.Category.NORMAL, 7));
+        depthList[5] = new CurrentDepth(3, new WSPOpcode(  5, "iconst_2",     0,  1, Opcode.Category.NORMAL, 1));
+        depthList[6] = new CurrentDepth(2, new WSPOpcode(100, "isub",         0, -1, Opcode.Category.NORMAL, 4));
+        depthList[7] = new CurrentDepth(2, new WSPOpcode(184, "invokestatic", 2,  0, Opcode.Category.INVOKE, 1));
+        depthList[8] = new CurrentDepth(1, new WSPOpcode( 96, "iadd",         0, -1, Opcode.Category.NORMAL, 3));
+        depthList[9] = new CurrentDepth(0, new WSPOpcode(172, "ireturn",      0, -1, Opcode.Category.NORMAL, 2));
         StackPatternBasedBirthmarkElement pattern2 = new StackPatternBasedBirthmarkElement(depthList);
 
         Assert.assertEquals(21, element.getWeight(pattern2));

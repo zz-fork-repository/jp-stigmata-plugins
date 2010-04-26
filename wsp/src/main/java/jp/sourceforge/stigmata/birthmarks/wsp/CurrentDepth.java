@@ -4,18 +4,16 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  * $Id$
  */
 
-import jp.sourceforge.stigmata.plugins.Opcode;
-
 /**
  *
  * @author Haruaki Tamada
  * @version $Revision$
  */
 public class CurrentDepth{
-    private Opcode opcode;
+    private WSPOpcode opcode;
     private int depth;
 
-    public CurrentDepth(int depth, Opcode opcode){
+    public CurrentDepth(int depth, WSPOpcode opcode){
         this.depth = depth;
         this.opcode = opcode;
     }
@@ -24,7 +22,7 @@ public class CurrentDepth{
         return depth;
     }
 
-    public Opcode getOpcode(){
+    public WSPOpcode getOpcode(){
         return opcode;
     }
 

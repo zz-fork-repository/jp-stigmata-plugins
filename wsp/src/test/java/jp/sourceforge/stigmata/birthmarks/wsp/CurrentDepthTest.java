@@ -4,7 +4,7 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  * $Id$
  */
 
-import jp.sourceforge.stigmata.plugins.Opcode;
+import jp.sourceforge.stigmata.birthmarks.Opcode;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,11 +17,11 @@ import org.junit.Test;
  */
 public class CurrentDepthTest{
     private CurrentDepth depth;
-    private Opcode opcode;
+    private WSPOpcode opcode;
 
     @Before
     public void setup(){
-        opcode = new Opcode(4, "iconst_1", 0, 1, Opcode.Category.NORMAL);
+        opcode = new WSPOpcode(4, "iconst_1", 0, 1, Opcode.Category.NORMAL);
         depth = new CurrentDepth(3, opcode);
     }
 
