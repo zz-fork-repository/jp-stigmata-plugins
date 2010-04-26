@@ -16,6 +16,9 @@ import jp.sourceforge.stigmata.BirthmarkElement;
 import jp.sourceforge.stigmata.ExtractionUnit;
 import jp.sourceforge.stigmata.birthmarks.ASMBirthmarkExtractor;
 import jp.sourceforge.stigmata.birthmarks.BirthmarkExtractVisitor;
+import jp.sourceforge.stigmata.plugins.LabelOpcode;
+import jp.sourceforge.stigmata.plugins.Opcode;
+import jp.sourceforge.stigmata.plugins.OpcodeExtractMethodVisitor;
 import jp.sourceforge.stigmata.spi.BirthmarkSpi;
 
 import org.objectweb.asm.ClassVisitor;
@@ -24,7 +27,7 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
 /**
- * 
+ *
  * @author Haruaki Tamada
  * @version $Revision$
  */
@@ -61,9 +64,9 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
 
         return elements.toArray(new BirthmarkElement[elements.size()]);
     }
-    
+
     @SuppressWarnings("unchecked")
-    private List<CurrentDepth> buildStackPattern(List<Opcode> opcodes, BirthmarkContext context){ 
+    private List<CurrentDepth> buildStackPattern(List<Opcode> opcodes, BirthmarkContext context){
         Map<Label, Integer> tableMap = new HashMap<Label, Integer>();
         List<CurrentDepth> pattern = new ArrayList<CurrentDepth>();
         Map<Integer, Integer> weights = (Map<Integer, Integer>)context.getProperty("birthmarks.wsp.weights");
@@ -80,7 +83,7 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
                     currentDepth += opcode.getAct();
                 }
                 else{
-                    currentDepth = forwardedStatus + opcode.getAct(); 
+                    currentDepth = forwardedStatus + opcode.getAct();
                 }
                 forwardedStatus = null;
 
@@ -113,7 +116,7 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
         @Override
         public MethodVisitor visitMethod(int arg0, String arg1, String arg2, String arg3, String[] arg4){
             MethodVisitor visitor = super.visitMethod(arg0, arg1, arg2, arg3, arg4);
-            OpcodeExtractionMethodVisitor opcodeVisitor = new OpcodeExtractionMethodVisitor(visitor, opcodeList);
+            OpcodeExtractMethodVisitor opcodeVisitor = new OpcodeExtractMethodVisitor(visitor, opcodeList);
 
             return opcodeVisitor;
         }

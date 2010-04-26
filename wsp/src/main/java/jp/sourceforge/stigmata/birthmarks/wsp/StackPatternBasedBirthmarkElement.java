@@ -10,11 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import jp.sourceforge.stigmata.BirthmarkElement;
+import jp.sourceforge.stigmata.plugins.Opcode;
+import jp.sourceforge.stigmata.plugins.OpcodeManager;
 
 /**
- * 
+ *
  * @author Haruaki TAMADA
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class StackPatternBasedBirthmarkElement extends BirthmarkElement implements Iterable<CurrentDepth>{
     private static final long serialVersionUID = 7965456413167854L;

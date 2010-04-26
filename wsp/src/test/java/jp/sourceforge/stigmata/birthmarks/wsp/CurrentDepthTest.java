@@ -4,12 +4,14 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  * $Id$
  */
 
+import jp.sourceforge.stigmata.plugins.Opcode;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Haruaki Tamada
  * @version $Revision$
  */

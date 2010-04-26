@@ -17,6 +17,8 @@ import jp.sourceforge.stigmata.BirthmarkContext;
 import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkPreprocessor;
 import jp.sourceforge.stigmata.digger.ClassFileArchive;
 import jp.sourceforge.stigmata.digger.ClassFileEntry;
+import jp.sourceforge.stigmata.plugins.Opcode;
+import jp.sourceforge.stigmata.plugins.OpcodeExtractMethodVisitor;
 import jp.sourceforge.stigmata.spi.BirthmarkSpi;
 
 import org.objectweb.asm.ClassAdapter;
@@ -25,7 +27,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
 /**
- * 
+ *
  * @author Haruaki Tamada
  * @version $Revision$
  */
@@ -71,8 +73,8 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
                 ClassAdapter opcodeExtractVisitor = new ClassAdapter(writer){
                     @Override
                     public MethodVisitor visitMethod(int arg0, String arg1, String arg2, String arg3, String[] arg4){
-                        OpcodeExtractionMethodVisitor visitor =
-                            new OpcodeExtractionMethodVisitor(super.visitMethod(arg0, arg1, arg2, arg3, arg4), opcodes);
+                        OpcodeExtractMethodVisitor visitor =
+                            new OpcodeExtractMethodVisitor(super.visitMethod(arg0, arg1, arg2, arg3, arg4), opcodes);
                         return visitor;
                     }
                 };

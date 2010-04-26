@@ -4,8 +4,10 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
  * $Id$
  */
 
+import jp.sourceforge.stigmata.plugins.Opcode;
+
 /**
- * 
+ *
  * @author Haruaki Tamada
  * @version $Revision$
  */
