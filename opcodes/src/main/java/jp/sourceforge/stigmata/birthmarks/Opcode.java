@@ -13,7 +13,7 @@ import java.util.List;
 import org.objectweb.asm.Label;
 
 /**
- * 
+ *
  * @author Haruaki Tamada
  * @version $Revision$
  */
@@ -27,7 +27,6 @@ public class Opcode implements Serializable{
     private String name;
     private int argumentCount;
     private int act;
-    private int weight;
     private Category category;
     private List<Label> labels = new ArrayList<Label>();
 
@@ -45,11 +44,6 @@ public class Opcode implements Serializable{
         this.argumentCount = argumentCount;
         this.act = act;
         this.category = category;
-    }
-
-    Opcode(int opcode, String name, int argumentCount, int act, Category category, int weight){
-        this(opcode, name, argumentCount, act, category);
-        setWeight(weight);
     }
 
     public int getOpcode(){
@@ -113,15 +107,7 @@ public class Opcode implements Serializable{
         return category;
     }
 
-    public void setWeight(int weight){
-        this.weight = weight;
-    }
-
-    public int getWeight(){
-        return weight;
-    }
-
     public String toString(){
-        return String.format("%d:%s:%d:%f(%s)", getOpcode(), getName(), getAct(), getWeight(), getCategory());
+        return String.format("%d:%s:%f(%s)", getOpcode(), getName(), getAct(), getCategory());
     }
 }

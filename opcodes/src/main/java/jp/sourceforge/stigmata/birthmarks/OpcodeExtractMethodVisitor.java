@@ -14,9 +14,9 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 /**
- * 
+ *
  * @author Haruaki TAMADA
- * @version $Revision$ 
+ * @version $Revision$
  */
 public class OpcodeExtractMethodVisitor extends MethodAdapter{
     private List<Opcode> opcodes;
@@ -32,11 +32,11 @@ public class OpcodeExtractMethodVisitor extends MethodAdapter{
         this.opcodes = opcodes;
     }
 
-    public void addOpcodeExtractListener(OpcodeExtractionFinishListener listener){
+    public void addOpcodeExtractListener(OpcodeExtractListener listener){
         listeners.add(listener);
     }
 
-    public void removeOpcodeExtractListener(OpcodeExtractionFinishListener listener){
+    public void removeOpcodeExtractListener(OpcodeExtractListener listener){
         listeners.add(listener);
     }
 
@@ -116,7 +116,7 @@ public class OpcodeExtractMethodVisitor extends MethodAdapter{
         Opcode lookupSwitch = new Opcode(manager.getOpcode(Opcodes.LOOKUPSWITCH));
         lookupSwitch.setLabels(labels);
         lookupSwitch.addLabel(defaultHandle);
-        
+
         opcodes.add(lookupSwitch);
         super.visitLookupSwitchInsn(defaultHandle, keys, labels);
     }
@@ -164,8 +164,8 @@ public class OpcodeExtractMethodVisitor extends MethodAdapter{
 
     @Override
     public void visitEnd(){
-        for(OpcodeExtractionFinishListener listener: listeners){
-            listener.extractionOpcodesFinished(opcodes);
+        for(OpcodeExtractListener listener: listeners){
+            listener.extractOpcodesFinished(opcodes);
         }
     }
 }

@@ -16,6 +16,6 @@ import jp.sourceforge.stigmata.BirthmarkElement;
  * @version $Revision$
  */
 public interface BirthmarkElementBuilder {
-    public BirthmarkElement[] buildBirthmarkElements(List<Opcode> opcodes, BirthmarkContext context);
+    public BirthmarkElement[] buildElements(List<Opcode> opcodes, BirthmarkContext context);
 }
 

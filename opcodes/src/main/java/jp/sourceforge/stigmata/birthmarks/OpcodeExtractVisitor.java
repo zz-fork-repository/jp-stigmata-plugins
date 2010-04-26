@@ -10,7 +10,6 @@ import java.util.List;
 import jp.sourceforge.stigmata.Birthmark;
 import jp.sourceforge.stigmata.BirthmarkContext;
 import jp.sourceforge.stigmata.BirthmarkElement;
-import jp.sourceforge.stigmata.birthmarks.BirthmarkExtractVisitor;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -31,7 +30,7 @@ public class OpcodeExtractVisitor extends BirthmarkExtractVisitor{
     }
 
     public void visitEnd(){
-        BirthmarkElement[] elements = builder.buildBirthmarkElements(opcodeList, getContext());
+        BirthmarkElement[] elements = builder.buildElements(opcodeList, getContext());
         for(BirthmarkElement element: elements){
             addElement(element);
         }
