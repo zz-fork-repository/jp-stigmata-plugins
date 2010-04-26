@@ -8,7 +8,7 @@
   </parent>
   <groupId>jp.sourceforge.stigmata.plugins</groupId>
   <artifactId>opcodes</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>opcodes</name>
   <url>http://stigmata.sourceforge.jp/stigmata/plugins/opcodes/</url>
 
@@ -61,10 +61,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <scm>
-    <connection>scm:svn:http://svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/opcodes/opcodes-1.0.0</connection>
-    <developerConnection>scm:svn:svn+ssh://tama3@svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/opcodes/opcodes-1.0.0</developerConnection>
-    <url>http://svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/opcodes/opcodes-1.0.0</url>
-  </scm>
 </project>
