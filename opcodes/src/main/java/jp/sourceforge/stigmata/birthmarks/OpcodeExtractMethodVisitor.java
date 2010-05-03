@@ -42,8 +42,7 @@ public class OpcodeExtractMethodVisitor extends MethodAdapter{
 
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String desc){
-        Opcode field = manager.getOpcode(opcode);
-        Opcode o = new Opcode(field);
+        Opcode o = new Opcode(manager.getOpcode(opcode));
         int size = Type.getType(desc).getSize();
         switch(opcode){
         case Opcodes.PUTFIELD:
@@ -89,7 +88,7 @@ public class OpcodeExtractMethodVisitor extends MethodAdapter{
 
     @Override
     public void visitJumpInsn(int opcode, Label label){
-        Opcode o = manager.getOpcode(opcode);
+        Opcode o = new Opcode(manager.getOpcode(opcode));
         o.addLabel(label);
         opcodes.add(o);
         super.visitJumpInsn(opcode, label);

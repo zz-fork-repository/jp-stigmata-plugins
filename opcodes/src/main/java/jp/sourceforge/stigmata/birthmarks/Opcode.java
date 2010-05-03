@@ -17,7 +17,7 @@ import org.objectweb.asm.Label;
  * @author Haruaki Tamada
  * @version $Revision$
  */
-public class Opcode implements Serializable{
+public class Opcode implements Serializable, Iterable<Label>{
     private static final long serialVersionUID = -2349834745416345564L;
 
     public static enum Category{
@@ -46,11 +46,11 @@ public class Opcode implements Serializable{
         this.category = category;
     }
 
-    public int getOpcode(){
+    public final int getOpcode(){
         return opcode;
     }
 
-    public String getName(){
+    public final String getName(){
         return name;
     }
 
@@ -62,7 +62,8 @@ public class Opcode implements Serializable{
         if(label == null){
             throw new NullPointerException();
         }
-        if(category != Category.BRANCH){
+        if(!(category == Category.TARGETER && labels.size() == 0) 
+                && category != Category.BRANCH){
             throw new IllegalStateException("this method allows only branch category");
         }
         labels.add(label);
@@ -84,11 +85,19 @@ public class Opcode implements Serializable{
         }
     }
 
+    public boolean hasLabel(Label label){
+        return labels.contains(label);
+    }
+
     public Label getLabel(int index){
         return labels.get(index);
     }
 
-    public Iterator<Label> labels(){
+    public synchronized Label[] getLabels(){
+        return labels.toArray(new Label[labels.size()]);
+    }
+
+    public Iterator<Label> iterator(){
         return Collections.unmodifiableList(labels).iterator();
     }
 
@@ -108,6 +117,13 @@ public class Opcode implements Serializable{
     }
 
     public String toString(){
-        return String.format("%d:%s:%f(%s)", getOpcode(), getName(), getAct(), getCategory());
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%d:%s:%d(%s)", getOpcode(), getName(), getAct(), getCategory()));
+
+        if(getCategory() == Category.BRANCH || getCategory() == Category.TARGETER){
+            sb.append(labels);
+        }
+
+        return new String(sb);
     }
 }

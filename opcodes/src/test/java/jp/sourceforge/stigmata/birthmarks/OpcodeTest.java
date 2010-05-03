@@ -83,7 +83,7 @@ public class OpcodeTest{
         Assert.assertEquals(label2, opcode.getLabel(1));
         Assert.assertEquals(label3, opcode.getLabel(2));
 
-        Iterator<Label> iterator = opcode.labels();
+        Iterator<Label> iterator = opcode.iterator();
         Assert.assertTrue(iterator.hasNext());
         Assert.assertEquals(label1, iterator.next());
         Assert.assertTrue(iterator.hasNext());
@@ -107,7 +107,7 @@ public class OpcodeTest{
         Assert.assertEquals(label2, opcode.getLabel(1));
         Assert.assertEquals(label3, opcode.getLabel(2));
 
-        Iterator<Label> iterator = opcode.labels();
+        Iterator<Label> iterator = opcode.iterator();
         Assert.assertTrue(iterator.hasNext());
         Assert.assertEquals(label1, iterator.next());
         Assert.assertTrue(iterator.hasNext());

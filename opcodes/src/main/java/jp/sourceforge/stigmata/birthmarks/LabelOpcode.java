@@ -14,14 +14,22 @@ import org.objectweb.asm.Label;
 public class LabelOpcode extends Opcode{
     private static final long serialVersionUID = -346783431316464L;
 
-    private Label label;
-
     public LabelOpcode(Label label){
         super(-1, "targeter", 0, 0, Category.TARGETER);
-        this.label = label;
+        super.addLabel(label);
+    }
+
+    @Override
+    public final void addLabel(Label label){
+        throw new NoSuchMethodError("illegal method call");
+    }
+
+    @Override
+    public final void setLabels(Label[] label){
+        throw new NoSuchMethodError("illegal method call");
     }
 
     public Label getLabel(){
-        return label;
+        return getLabel(0);
     }
 }
