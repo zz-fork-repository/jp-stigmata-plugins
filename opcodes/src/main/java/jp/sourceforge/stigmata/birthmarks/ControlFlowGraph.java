@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
@@ -14,8 +15,6 @@ import org.objectweb.asm.tree.LookupSwitchInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TableSwitchInsnNode;
 import org.objectweb.asm.tree.TryCatchBlockNode;
-
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 public class ControlFlowGraph {
     private String name;
@@ -50,6 +49,7 @@ public class ControlFlowGraph {
                 matrix[i][j] = nextValue;
             }
         }
+
         return matrix;
     }
 
@@ -74,7 +74,7 @@ public class ControlFlowGraph {
     }
 
     private Set<LabelNode> collectLabels(MethodNode node){
-        Set<LabelNode> jumpedTarget = new HashSet<LabelNode>();
+        Set<LabelNode> jumpTarget = new HashSet<LabelNode>();
         int size = node.instructions.size();
         for(int i = 0; i < size; i++){
             AbstractInsnNode inst = node.instructions.get(i);
@@ -82,24 +82,24 @@ public class ControlFlowGraph {
             case AbstractInsnNode.JUMP_INSN:
             {
                 JumpInsnNode jump = (JumpInsnNode)inst;
-                jumpedTarget.add(jump.label);
+                jumpTarget.add(jump.label);
                 break;
             }
             case AbstractInsnNode.LOOKUPSWITCH_INSN:
             {
                 LookupSwitchInsnNode lookup = (LookupSwitchInsnNode)inst;
-                jumpedTarget.add(lookup.dflt);
+                jumpTarget.add(lookup.dflt);
                 for(Object label: lookup.labels){
-                    jumpedTarget.add((LabelNode)label);
+                    jumpTarget.add((LabelNode)label);
                 }
                 break;
             }
             case AbstractInsnNode.TABLESWITCH_INSN:
             {
                 TableSwitchInsnNode lookup = (TableSwitchInsnNode)inst;
-                jumpedTarget.add(lookup.dflt);
+                jumpTarget.add(lookup.dflt);
                 for(Object label: lookup.labels){
-                    jumpedTarget.add((LabelNode)label);
+                    jumpTarget.add((LabelNode)label);
                 }
                 break;
             }
@@ -107,30 +107,72 @@ public class ControlFlowGraph {
         }
         if(isIncludingExceptionFlow()){
             for(Object object: node.tryCatchBlocks){
-                jumpedTarget.add(((TryCatchBlockNode)object).handler);
+                jumpTarget.add(((TryCatchBlockNode)object).handler);
             }
         }
-        return jumpedTarget;
+        return jumpTarget;
     }
 
-    private BasicBlock[] separateBasicBlock(MethodNode node, Set<LabelNode> jumpedTarget){
+    /**
+     * TryCatchブロックの一覧を返します．
+     * Try Catchブロックが含まれていない場合や，
+     * {@link isIncludingExceptionFlow}がfalseを返す場合は長さ0の配列を返します．
+     * @param node
+     * @return
+     */
+    private TryCatchBlockNode[] buildTryCatchBlockNode(MethodNode node){
+        TryCatchBlockNode[] nodes = new TryCatchBlockNode[0];
+        if(isIncludingExceptionFlow()){
+            nodes = new TryCatchBlockNode[node.tryCatchBlocks.size()];
+            for(int i = 0; i < nodes.length; i++){
+                nodes[i] = (TryCatchBlockNode)node.tryCatchBlocks.get(i);
+            }
+        }
+        return nodes;
+    }
+
+    private void buildExceptionFlow(AbstractInsnNode inst, Set<Label> exceptionFlows, TryCatchBlockNode[] tryCatches){
+        if(inst.getType() == AbstractInsnNode.LABEL){
+            Label label = ((LabelNode)inst).getLabel();
+
+            for(TryCatchBlockNode node: tryCatches){
+                if(node.start.getLabel() == label){
+                    exceptionFlows.add(node.handler.getLabel());
+                }
+                else if(node.end.getLabel() == label){
+                    exceptionFlows.remove(node.handler.getLabel());
+                }
+            }
+        }
+    }
+
+    private BasicBlock[] separateBasicBlock(MethodNode node, Set<LabelNode> jumpTarget){
         int size = node.instructions.size();
 
         List<BasicBlock> blockList = new ArrayList<BasicBlock>();
+        Set<Label> exceptionFlows = new HashSet<Label>();
+        TryCatchBlockNode[] tryCatchBlocks = buildTryCatchBlockNode(node);
+
         BasicBlock block = new BasicBlock();
         for(int i = 0; i < size; i++){
             AbstractInsnNode inst = node.instructions.get(i);
+            block.exceptionFlows.addAll(exceptionFlows);
 
-            if(jumpedTarget.contains(inst)){
+            if(jumpTarget.contains(inst)){
                 if(!block.isEmpty()){
                     blockList.add(block);
                     block = new BasicBlock();
+                    block.exceptionFlows.addAll(exceptionFlows);
                 }
             }
             block.addNode(inst);
+            buildExceptionFlow(inst, exceptionFlows, tryCatchBlocks);
             if(inst.getType() == AbstractInsnNode.JUMP_INSN
                     || inst.getType() == AbstractInsnNode.TABLESWITCH_INSN
-                    || inst.getType() == AbstractInsnNode.LOOKUPSWITCH_INSN){
+                    || inst.getType() == AbstractInsnNode.LOOKUPSWITCH_INSN
+                    || inst.getOpcode() == Opcodes.RETURN
+                    || inst.getOpcode() == Opcodes.ATHROW
+                    || inst.getOpcode() == Opcodes.RET){
                 if(!block.isEmpty()){
                     blockList.add(block);
                     BasicBlock block2 = new BasicBlock();
@@ -138,10 +180,13 @@ public class ControlFlowGraph {
                         block2.setPrev(block);
                     }
                     block = block2;
+                    block.exceptionFlows.addAll(exceptionFlows);
                 }
             }
         }
-        blockList.add(block);
+        if(!block.isEmpty()){
+            blockList.add(block);
+        }
         return blockList.toArray(new BasicBlock[blockList.size()]);
     }
 
@@ -156,7 +201,7 @@ public class ControlFlowGraph {
                     }
                 }
             }
-            if(labels.length == 0 && (i + 1) < blocks.length){
+            if((i + 1) < blocks.length && blocks[i].isFlowNext()){
                 blocks[i].setNext(blocks[i + 1]);
             }
         }
@@ -165,8 +210,8 @@ public class ControlFlowGraph {
     }
 
     private void parse(MethodNode node){
-        Set<LabelNode> jumpedTarget = collectLabels(node);
-        BasicBlock[] blocks = separateBasicBlock(node, jumpedTarget);
+        Set<LabelNode> jumpTarget = collectLabels(node);
+        BasicBlock[] blocks = separateBasicBlock(node, jumpTarget);
         this.blocks = joinBasicBlocks(blocks);
     }
 }

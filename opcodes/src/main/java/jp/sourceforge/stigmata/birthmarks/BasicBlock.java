@@ -8,13 +8,20 @@ import java.util.List;
 import java.util.Set;
 
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 
+/**
+ * 基本ブロックを表すクラス．
+ * 
+ * @author tamada
+ */
 public class BasicBlock {
     private Set<BasicBlock> nexts = new HashSet<BasicBlock>();
     private List<Opcode> opcodes = new ArrayList<Opcode>();
     private Set<BasicBlock> prevs = new HashSet<BasicBlock>();
+    Set<Label> exceptionFlows = new HashSet<Label>();
 
     BasicBlock(){
     }
@@ -55,6 +62,9 @@ public class BasicBlock {
                 }
             }
         }
+        for(Label label: exceptionFlows){
+            targets.add(label);
+        }
 
         return targets.toArray(new Label[targets.size()]);
     }
@@ -91,19 +101,24 @@ public class BasicBlock {
         prevs.add(block);
     }
 
-    /*
     public String toString(){
         StringBuilder sb = new StringBuilder("---- block ----");
         String ln = System.getProperty("line.separator");
         for(Opcode opcode: opcodes){
             sb.append(ln).append(opcode);
         }
-        Label[] targets = getTargets();
         sb.append(ln).append("Targeter: ");
-        for(Label label: targets){
+        for(Label label: getTargets()){
             sb.append(label).append(", ");
         }
         return new String(sb);
     }
-    */
+
+    public boolean isFlowNext(){
+        Opcode opcode = getOpcode(getSize() - 1);
+        int op = opcode.getOpcode();
+
+        return op != Opcodes.GOTO && op != Opcodes.RETURN
+        && op != Opcodes.RET && op != Opcodes.ATHROW;
+    }
 }
