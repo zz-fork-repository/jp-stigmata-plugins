@@ -1,9 +1,5 @@
 package jp.sourceforge.stigmata.birthmarks;
 
-/*
- * $Id$
- */
-
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,7 +13,6 @@ import org.objectweb.asm.tree.MethodNode;
  *
  *
  * @author tamada
- * @version $Revision$
  */
 public class ControlFlowGraphExtractVisitor extends ClassAdapter{
     private Map<String, MethodNode> opcodesMap = new LinkedHashMap<String, MethodNode>();

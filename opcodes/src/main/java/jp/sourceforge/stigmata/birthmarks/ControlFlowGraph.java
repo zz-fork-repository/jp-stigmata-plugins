@@ -16,11 +16,16 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TableSwitchInsnNode;
 import org.objectweb.asm.tree.TryCatchBlockNode;
 
+/**
+ * コントロールフローを表すクラス．
+ * @author tamada
+ *
+ */
 public class ControlFlowGraph {
-    private String name;
+    private BasicBlock[] blocks;
     private boolean includeException;
     private MethodNode method;
-    private BasicBlock[] blocks;
+    private String name;
 
     public ControlFlowGraph(String name, MethodNode node){
         this(name, node, false);
@@ -33,44 +38,37 @@ public class ControlFlowGraph {
         parse(method);
     }
 
-    public int[][] getGraphMatrix(){
-        int[][] matrix = new int[blocks.length][blocks.length];
+    private void buildExceptionFlow(AbstractInsnNode inst, Set<Label> exceptionFlows, TryCatchBlockNode[] tryCatches){
+        if(inst.getType() == AbstractInsnNode.LABEL){
+            Label label = ((LabelNode)inst).getLabel();
 
-        for(int i = 0; i < blocks.length; i++){
-            for(int j = 0; j < blocks.length; j++){
-                int nextValue = 0;
-                for(Iterator<BasicBlock> iter = blocks[i].nextIterator(); iter.hasNext(); ){
-                    BasicBlock nextBlock = iter.next();
-                    if(nextBlock == blocks[j]){
-                        nextValue = 1;
-                        break;
-                    }
+            for(TryCatchBlockNode node: tryCatches){
+                if(node.start.getLabel() == label){
+                    exceptionFlows.add(node.handler.getLabel());
                 }
-                matrix[i][j] = nextValue;
+                else if(node.end.getLabel() == label){
+                    exceptionFlows.remove(node.handler.getLabel());
+                }
             }
         }
-
-        return matrix;
     }
 
-    public String getName(){
-        return name;
-    }
-
-    public int getBasicBlockSize(){
-        return blocks.length;
-    }
-
-    public boolean isIncludingExceptionFlow(){
-        return includeException;
-    }
-
-    public void setIncludingExceptionFlow(boolean includeException){
-        boolean oldvalue = this.includeException;
-        this.includeException = includeException;
-        if(oldvalue != includeException){
-            parse(method);
+    /**
+     * TryCatchブロックの一覧を返します．
+     * Try Catchブロックが含まれていない場合や，
+     * {@link isIncludingExceptionFlow}がfalseを返す場合は長さ0の配列を返します．
+     * @param node
+     * @return
+     */
+    private TryCatchBlockNode[] buildTryCatchBlockNode(MethodNode node){
+        TryCatchBlockNode[] nodes = new TryCatchBlockNode[0];
+        if(isIncludingExceptionFlow()){
+            nodes = new TryCatchBlockNode[node.tryCatchBlocks.size()];
+            for(int i = 0; i < nodes.length; i++){
+                nodes[i] = (TryCatchBlockNode)node.tryCatchBlocks.get(i);
+            }
         }
+        return nodes;
     }
 
     private Set<LabelNode> collectLabels(MethodNode node){
@@ -113,37 +111,61 @@ public class ControlFlowGraph {
         return jumpTarget;
     }
 
-    /**
-     * TryCatchブロックの一覧を返します．
-     * Try Catchブロックが含まれていない場合や，
-     * {@link isIncludingExceptionFlow}がfalseを返す場合は長さ0の配列を返します．
-     * @param node
-     * @return
-     */
-    private TryCatchBlockNode[] buildTryCatchBlockNode(MethodNode node){
-        TryCatchBlockNode[] nodes = new TryCatchBlockNode[0];
-        if(isIncludingExceptionFlow()){
-            nodes = new TryCatchBlockNode[node.tryCatchBlocks.size()];
-            for(int i = 0; i < nodes.length; i++){
-                nodes[i] = (TryCatchBlockNode)node.tryCatchBlocks.get(i);
-            }
-        }
-        return nodes;
+    public int getBasicBlockSize(){
+        return blocks.length;
     }
 
-    private void buildExceptionFlow(AbstractInsnNode inst, Set<Label> exceptionFlows, TryCatchBlockNode[] tryCatches){
-        if(inst.getType() == AbstractInsnNode.LABEL){
-            Label label = ((LabelNode)inst).getLabel();
+    public int[][] getGraphMatrix(){
+        int[][] matrix = new int[blocks.length][blocks.length];
 
-            for(TryCatchBlockNode node: tryCatches){
-                if(node.start.getLabel() == label){
-                    exceptionFlows.add(node.handler.getLabel());
+        for(int i = 0; i < blocks.length; i++){
+            for(int j = 0; j < blocks.length; j++){
+                int nextValue = 0;
+                for(Iterator<BasicBlock> iter = blocks[i].nextIterator(); iter.hasNext(); ){
+                    BasicBlock nextBlock = iter.next();
+                    if(nextBlock == blocks[j]){
+                        nextValue = 1;
+                        break;
+                    }
                 }
-                else if(node.end.getLabel() == label){
-                    exceptionFlows.remove(node.handler.getLabel());
-                }
+                matrix[i][j] = nextValue;
             }
         }
+
+        return matrix;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public boolean isIncludingExceptionFlow(){
+        return includeException;
+    }
+
+    private BasicBlock[] joinBasicBlocks(BasicBlock[] blocks){
+        for(int i = 0; i < blocks.length; i++){
+            Label[] labels = blocks[i].getTargets();
+            for(int j = 0; j < labels.length; j++){
+                for(int k = 0; k < blocks.length; k++){
+                    if(i != k && blocks[k].hasLabel(labels[j])){
+                        blocks[i].setNext(blocks[k]);
+                        break;
+                    }
+                }
+            }
+            if((i + 1) < blocks.length && blocks[i].isFlowNext()){
+                blocks[i].setNext(blocks[i + 1]);
+            }
+        }
+
+        return blocks;
+    }
+
+    private void parse(MethodNode node){
+        Set<LabelNode> jumpTarget = collectLabels(node);
+        BasicBlock[] blocks = separateBasicBlock(node, jumpTarget);
+        this.blocks = joinBasicBlocks(blocks);
     }
 
     private BasicBlock[] separateBasicBlock(MethodNode node, Set<LabelNode> jumpTarget){
@@ -190,28 +212,11 @@ public class ControlFlowGraph {
         return blockList.toArray(new BasicBlock[blockList.size()]);
     }
 
-    private BasicBlock[] joinBasicBlocks(BasicBlock[] blocks){
-        for(int i = 0; i < blocks.length; i++){
-            Label[] labels = blocks[i].getTargets();
-            for(int j = 0; j < labels.length; j++){
-                for(int k = 0; k < blocks.length; k++){
-                    if(i != k && blocks[k].hasLabel(labels[j])){
-                        blocks[i].setNext(blocks[k]);
-                        break;
-                    }
-                }
-            }
-            if((i + 1) < blocks.length && blocks[i].isFlowNext()){
-                blocks[i].setNext(blocks[i + 1]);
-            }
+    public void setIncludingExceptionFlow(boolean includeException){
+        boolean oldvalue = this.includeException;
+        this.includeException = includeException;
+        if(oldvalue != includeException){
+            parse(method);
         }
-
-        return blocks;
-    }
-
-    private void parse(MethodNode node){
-        Set<LabelNode> jumpTarget = collectLabels(node);
-        BasicBlock[] blocks = separateBasicBlock(node, jumpTarget);
-        this.blocks = joinBasicBlocks(blocks);
     }
 }

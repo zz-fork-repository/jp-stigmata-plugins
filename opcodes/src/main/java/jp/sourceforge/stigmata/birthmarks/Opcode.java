@@ -1,9 +1,5 @@
 package jp.sourceforge.stigmata.birthmarks;
 
-/*
- * $Id$
- */
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +11,6 @@ import org.objectweb.asm.Label;
 /**
  *
  * @author Haruaki Tamada
- * @version $Revision$
  */
 public class Opcode implements Serializable, Iterable<Label>{
     private static final long serialVersionUID = -2349834745416345564L;
