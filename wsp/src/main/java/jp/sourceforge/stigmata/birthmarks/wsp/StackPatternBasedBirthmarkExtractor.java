@@ -6,7 +6,6 @@ package jp.sourceforge.stigmata.birthmarks.wsp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -89,8 +88,7 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
 
                     pattern.add(new CurrentDepth(currentDepth, wspOpcode));
                     if(opcode.getCategory() == Opcode.Category.BRANCH){
-                        for(Iterator<Label> i = opcode.labels(); i.hasNext(); ){
-                            Label label = i.next();
+                        for(Label label: opcode.getLabels()){
                             tableMap.put(label, currentDepth);
                         }
                     }
