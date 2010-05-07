@@ -14,11 +14,11 @@
   <modules>
     <module>wsp</module>
     <module>sot</module>
+    <module>cflib</module>
 <!--
     <module>sapit</module>
     <module>cfs</module>
 -->
-    <module>opcodes</module>
   </modules>
 
   <issueManagement>

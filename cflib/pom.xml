@@ -7,10 +7,10 @@
     <version>1.0</version>
   </parent>
   <groupId>jp.sourceforge.stigmata.plugins</groupId>
-  <artifactId>opcodes</artifactId>
+  <artifactId>cflib</artifactId>
   <version>1.0.1-SNAPSHOT</version>
-  <name>opcodes</name>
-  <url>http://stigmata.sourceforge.jp/stigmata/plugins/opcodes/</url>
+  <name>cflib</name>
+  <url>http://stigmata.sourceforge.jp/stigmata/plugins/cflib/</url>
 
   <dependencies>
     <dependency>
@@ -38,7 +38,7 @@
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <tagBase>svn+ssh://tama3@svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/opcodes/</tagBase>
+          <tagBase>svn+ssh://tama3@svn.sourceforge.jp/svnroot/stigmata/plugins/trunk/cflib/</tagBase>
         </configuration>
       </plugin>
 
