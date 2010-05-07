@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.objectweb.asm.ClassAdapter;
+import jp.sourceforge.stigmata.Birthmark;
+import jp.sourceforge.stigmata.BirthmarkContext;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.tree.MethodNode;
@@ -14,11 +16,19 @@ import org.objectweb.asm.tree.MethodNode;
  *
  * @author tamada
  */
-public class ControlFlowGraphExtractVisitor extends ClassAdapter{
+public class ControlFlowGraphExtractVisitor extends BirthmarkExtractVisitor{
     private Map<String, MethodNode> opcodesMap = new LinkedHashMap<String, MethodNode>();
 
-    public ControlFlowGraphExtractVisitor(ClassVisitor visitor){
-        super(visitor);
+    public ControlFlowGraphExtractVisitor(ClassVisitor visitor, Birthmark birthmark, BirthmarkContext context){
+        super(visitor, birthmark, context);
+    }
+
+    /**
+     * テストのためのコンストラクタ．
+     * @param visitor
+     */
+    ControlFlowGraphExtractVisitor(ClassVisitor visitor){
+        super(visitor, null, null);
     }
 
     public Iterator<String> getMethodNames(){

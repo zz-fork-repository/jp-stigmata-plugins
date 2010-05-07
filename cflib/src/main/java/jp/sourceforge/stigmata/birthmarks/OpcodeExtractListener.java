@@ -12,5 +12,5 @@ import java.util.List;
  * @version $Revision$
  */
 public interface OpcodeExtractListener{
-    public void extractOpcodesFinished(List<Opcode> opcodes);
+    public void opcodesExtracted(List<Opcode> opcodes);
 }

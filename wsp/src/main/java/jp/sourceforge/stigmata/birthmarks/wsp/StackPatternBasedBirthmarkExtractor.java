@@ -21,7 +21,7 @@ import jp.sourceforge.stigmata.birthmarks.Opcode;
 import jp.sourceforge.stigmata.birthmarks.OpcodeExtractVisitor;
 import jp.sourceforge.stigmata.spi.BirthmarkSpi;
 
-import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 
 /**
@@ -35,8 +35,8 @@ public class StackPatternBasedBirthmarkExtractor extends ASMBirthmarkExtractor{
     }
 
     @Override
-    public BirthmarkExtractVisitor createExtractVisitor(ClassWriter writer, Birthmark birthmark, BirthmarkContext context){
-        return new OpcodeExtractVisitor(writer, birthmark, context, new WSPBirthmarkElementBuilder());
+    public BirthmarkExtractVisitor createExtractVisitor(ClassVisitor visitor, Birthmark birthmark, BirthmarkContext context){
+        return new OpcodeExtractVisitor(visitor, birthmark, context, new WSPBirthmarkElementBuilder());
     }
 
     @Override

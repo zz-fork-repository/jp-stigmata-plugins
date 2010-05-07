@@ -164,7 +164,7 @@ public class OpcodeExtractMethodVisitor extends MethodAdapter{
     @Override
     public void visitEnd(){
         for(OpcodeExtractListener listener: listeners){
-            listener.extractOpcodesFinished(opcodes);
+            listener.opcodesExtracted(opcodes);
         }
     }
 }

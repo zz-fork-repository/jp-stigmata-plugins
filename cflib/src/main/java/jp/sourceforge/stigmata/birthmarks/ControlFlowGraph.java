@@ -19,7 +19,6 @@ import org.objectweb.asm.tree.TryCatchBlockNode;
 /**
  * コントロールフローを表すクラス．
  * @author tamada
- *
  */
 public class ControlFlowGraph {
     private BasicBlock[] blocks;

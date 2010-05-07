@@ -12,7 +12,7 @@ import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
 
 /**
  * Weighted Stack Pattern based birthmark.
- * 
+ *
  * this birthmark is proposed by LIM et al. in following papers.
  * <ul>
  * <li>Hyun-il Lim, Heewan Park, Seokwoo Choi, Taisook Han, ``Detecting Theft
@@ -23,7 +23,7 @@ import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
  * Birthmark Based on Operand Stack Behaviors,'' In Proc. of 2008 International
  * Conference on Information Security and Assurance, pp.133-136, April 2008.</li>
  * </ul>
- * 
+ *
  * @author Haruaki Tamada
  * @version $Revision$
  */
@@ -43,8 +43,8 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     }
 
     @Override
-    public boolean isExpert(){
-        return false;
+    public boolean isExperimental(){
+        return true;
     }
 
     @Override
