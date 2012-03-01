@@ -1,13 +1,8 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
-/*
- * $Id$
- */
-
 /**
  *
  * @author Haruaki Tamada
- * @version $Revision$
  */
 public class CurrentDepth{
     private WSPOpcode opcode;
@@ -26,7 +21,11 @@ public class CurrentDepth{
         return opcode;
     }
 
+    @Override
     public String toString(){
-        return String.format("%d:%d:%d:%d", opcode.getOpcode(), depth, opcode.getWeight(), opcode.getAct());
+        return String.format(
+            "%d:%d:%d:%d", opcode.getOpcode(),
+            depth, opcode.getWeight(), opcode.getAct()
+        );
     }
 }

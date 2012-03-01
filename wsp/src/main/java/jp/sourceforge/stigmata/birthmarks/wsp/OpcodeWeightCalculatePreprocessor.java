@@ -1,9 +1,5 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
-/*
- * $Id$
- */
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,29 +11,31 @@ import java.util.Set;
 
 import jp.sourceforge.stigmata.BirthmarkContext;
 import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkPreprocessor;
-import jp.sourceforge.stigmata.birthmarks.Opcode;
-import jp.sourceforge.stigmata.birthmarks.OpcodeExtractMethodVisitor;
+import jp.sourceforge.stigmata.cflib.Opcode;
+import jp.sourceforge.stigmata.cflib.OpcodeExtractMethodVisitor;
 import jp.sourceforge.stigmata.digger.ClassFileArchive;
 import jp.sourceforge.stigmata.digger.ClassFileEntry;
-import jp.sourceforge.stigmata.spi.BirthmarkSpi;
+import jp.sourceforge.stigmata.spi.BirthmarkService;
 
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  *
  * @author Haruaki Tamada
- * @version $Revision$
  */
-public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreprocessor{
-    public OpcodeWeightCalculatePreprocessor(BirthmarkSpi spi){
+public class OpcodeWeightCalculatePreprocessor
+        extends AbstractBirthmarkPreprocessor{
+    public OpcodeWeightCalculatePreprocessor(BirthmarkService spi){
         super(spi);
     }
 
     @Override
-    public void preprocess(ClassFileArchive[] targets, BirthmarkContext context){
+    public void preprocess(ClassFileArchive[] targets,
+			   BirthmarkContext context){
         Map<Integer, Integer> targetMap = new HashMap<Integer, Integer>();
 
         int classCount = 0;
@@ -60,7 +58,8 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
         context.putProperty("birthmarks.wsp.weights", weights);
     }
 
-    private int readOpcodes(ClassFileArchive archive, Map<Integer, Integer> targetMap){
+    private int readOpcodes(ClassFileArchive archive,
+			    Map<Integer, Integer> targetMap){
         int count = 0;
         for(ClassFileEntry entry: archive){
             count++;
@@ -70,11 +69,16 @@ public class OpcodeWeightCalculatePreprocessor extends AbstractBirthmarkPreproce
 
                 ClassReader reader = new ClassReader(in);
                 ClassWriter writer = new ClassWriter(0);
-                ClassAdapter opcodeExtractVisitor = new ClassAdapter(writer){
+                ClassVisitor opcodeExtractVisitor = new ClassVisitor(Opcodes.ASM4, writer){
                     @Override
-                    public MethodVisitor visitMethod(int arg0, String arg1, String arg2, String arg3, String[] arg4){
+                    public MethodVisitor visitMethod(
+                            int arg0, String arg1, String arg2,
+			    String arg3, String[] arg4){
                         OpcodeExtractMethodVisitor visitor =
-                            new OpcodeExtractMethodVisitor(super.visitMethod(arg0, arg1, arg2, arg3, arg4), opcodes);
+                            new OpcodeExtractMethodVisitor(
+                                super.visitMethod(arg0, arg1, arg2, arg3, arg4),
+                        	opcodes
+                            );
                         return visitor;
                     }
                 };

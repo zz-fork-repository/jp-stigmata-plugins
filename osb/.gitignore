@@ -1,0 +1,8 @@
+target
+.DS_Store
+.class
+.classpath
+.settings
+.project
+.djunitplugin
+*~

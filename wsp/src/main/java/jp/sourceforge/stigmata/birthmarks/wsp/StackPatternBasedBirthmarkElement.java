@@ -1,24 +1,20 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
-/*
- * $Id$
- */
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import jp.sourceforge.stigmata.BirthmarkElement;
-import jp.sourceforge.stigmata.birthmarks.Opcode;
-import jp.sourceforge.stigmata.birthmarks.OpcodeManager;
+import jp.sourceforge.stigmata.cflib.Opcode;
+import jp.sourceforge.stigmata.cflib.OpcodeManager;
 
 /**
  *
  * @author Haruaki TAMADA
- * @version $Revision$
  */
-public class StackPatternBasedBirthmarkElement extends BirthmarkElement implements Iterable<CurrentDepth>{
+public class StackPatternBasedBirthmarkElement
+        extends BirthmarkElement implements Iterable<CurrentDepth>{
     private static final long serialVersionUID = 7965456413167854L;
 
     private List<CurrentDepth> list = new ArrayList<CurrentDepth>();
@@ -41,8 +37,11 @@ public class StackPatternBasedBirthmarkElement extends BirthmarkElement implemen
                 int weight = Integer.parseInt(depthStringArray[2]);
                 int act = Integer.parseInt(depthStringArray[3]);
 
-                WSPOpcode o = new WSPOpcode(OpcodeManager.getInstance().getOpcode(opcode), weight);
-                if(o.getCategory() == Opcode.Category.OBJECT || o.getCategory() == Opcode.Category.INVOKE){
+                WSPOpcode o = new WSPOpcode(
+                    OpcodeManager.getInstance().getOpcode(opcode), weight
+                );
+                if(o.getCategory() == Opcode.Category.FIELD
+                        || o.getCategory() == Opcode.Category.INVOKE){
                     o.setAct(act);
                 }
                 list.add(new CurrentDepth(depth, o));
@@ -58,6 +57,7 @@ public class StackPatternBasedBirthmarkElement extends BirthmarkElement implemen
         return list.get(index);
     }
 
+    @Override
     public Iterator<CurrentDepth> iterator(){
         return Collections.unmodifiableList(list).iterator();
     }
@@ -70,11 +70,16 @@ public class StackPatternBasedBirthmarkElement extends BirthmarkElement implemen
                 if(i == 0 || j == 0){
                     matrix[i][j] = 0;
                 }
-                else if(element.getDepth(i - 1).getOpcode().getOpcode() == getDepth(j - 1).getOpcode().getOpcode()){
-                    matrix[i][j] = (int)(matrix[i - 1][j - 1] + getDepth(j - 1).getOpcode().getWeight());
+                else if(element.getDepth(i - 1).getOpcode().getOpcode()
+                        == getDepth(j - 1).getOpcode().getOpcode()){
+                    matrix[i][j] = (int)(
+                        matrix[i - 1][j - 1]
+                        + getDepth(j - 1).getOpcode().getWeight()
+                    );
                 }
                 else{
-                    matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i][j - 1]);
+                    matrix[i][j] =
+                        Math.max(matrix[i - 1][j], matrix[i][j - 1]);
                 }
             }
         }

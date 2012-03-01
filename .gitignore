@@ -1,1 +1,8 @@
-**/target
+*~
+.DS_Store
+._*
+target
+.classpath
+.settings
+.project
+.djunitplugin

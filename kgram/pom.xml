@@ -1,0 +1,16 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>jp.sourceforge.stigmata</groupId>
+    <artifactId>stigmata-plugins</artifactId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jp.sourceforge.stigmata.plugins</groupId>
+  <artifactId>kgram</artifactId>
+  <name>k-gram based birthmark</name>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <url>http://stigmata.sourceforge.jp/plugins/kgram/</url>
+</project>

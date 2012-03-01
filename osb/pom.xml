@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <parent>
+    <artifactId>stigmata-plugins</artifactId>
+    <groupId>jp.sourceforge.stigmata</groupId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+    
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jp.sourceforge.stigmata.plugins</groupId>
+  <artifactId>osb</artifactId>
+  <name>Operand Stack Behaviors Birthmark</name>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <url>http://stigmata.sourceforge.jp/plugins/osb/</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>iwama</id>
+      <name>Fumiya Iwama</name>
+      <organization>Kyoto Sangyo University</organization>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-9</timezone>
+    </developer>
+    <developer>
+      <id>obatake</id>
+      <name>Ryota Obatake</name>
+      <organization>Kyoto Sangyo University</organization>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-9</timezone>
+    </developer>
+    <developer>
+      <id>kataoka</id>
+      <name>Akinori Kataoka</name>
+      <organization>Kyoto Sangyo University</organization>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-9</timezone>
+    </developer>
+    <developer>
+      <id>kitano</id>
+      <name>Takayuki Kitano</name>
+      <organization>Kyoto Sangyo University</organization>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-9</timezone>
+    </developer>
+  </developers>
+
+  <repositories>
+    <repository>
+      <id>tamadalab-intra-repo</id>
+      <url>http://diamond.cse.kyoto-su.ac.jp/maven2</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>jp.sourceforge.stigmata</groupId>
+      <artifactId>cflib</artifactId>
+      <version>2.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.0</version>
+        <configuration> 
+          <locale>ja</locale>
+          <inputEncoding>utf-8</inputEncoding>
+          <outputEncoding>utf-8</outputEncoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <charset>utf-8</charset>
+          <encoding>utf-8</encoding>
+          <docencoding>utf-8</docencoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <formats>
+            <format>html</format>
+          </formats>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

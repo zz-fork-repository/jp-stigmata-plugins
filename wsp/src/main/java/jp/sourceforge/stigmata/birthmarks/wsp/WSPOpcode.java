@@ -1,27 +1,24 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
-/*
- * $Id$
- */
-
-import jp.sourceforge.stigmata.birthmarks.Opcode;
+import jp.sourceforge.stigmata.cflib.Opcode;
 
 /**
  *
  *
- * @author tamada
- * @version $Revision$
+ * @author Haruaki Tamada
  */
 public class WSPOpcode extends Opcode {
     private static final long serialVersionUID = 31469629831901737L;
 
     private int weight;
 
-    public WSPOpcode(int opcode, String name, int argumentCount, int act, Category category) {
+    public WSPOpcode(int opcode, String name, int argumentCount,
+                     int act, Category category) {
         super(opcode, name, argumentCount, act, category);
     }
 
-    public WSPOpcode(int opcode, String name, int argumentCount, int act, String category) {
+    public WSPOpcode(int opcode, String name, int argumentCount,
+                     int act, String category) {
         super(opcode, name, argumentCount, act, category);
     }
 
@@ -29,7 +26,8 @@ public class WSPOpcode extends Opcode {
         super(opcode);
     }
 
-    public WSPOpcode(int opcode, String name, int argumentCount, int act, Category category, int weight){
+    public WSPOpcode(int opcode, String name, int argumentCount,
+                     int act, Category category, int weight){
         this(opcode, name, argumentCount, act, category);
 
         setWeight(weight);
@@ -49,7 +47,11 @@ public class WSPOpcode extends Opcode {
         return weight;
     }
 
+    @Override
     public String toString(){
-        return String.format("%d:%s:%d:%f(%s)", getOpcode(), getName(), getWeight(), getAct(), getCategory());
+        return String.format(
+            "%d:%s:%d:%f(%s)", getOpcode(), getName(),
+	    getWeight(), getAct(), getCategory()
+        );
     }
 }

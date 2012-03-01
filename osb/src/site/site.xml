@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="osb">
+  <bannerLeft>
+    <name>Operand Stack Behaviors Birthmark</name>
+    <href>http://stigmata.sourceforge.jp/plugins/osb/</href>
+  </bannerLeft>
+
+  <body>
+    <menu name="OSB" inherit="top">
+      <item name="Introduction"   href="index.html"/>
+    </menu>
+
+    <menu ref="reports"/>
+  </body>
+</project>

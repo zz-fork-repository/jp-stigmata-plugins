@@ -1,14 +1,9 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
-/*
- * $Id$
- */
-
 import jp.sourceforge.stigmata.BirthmarkComparator;
-import jp.sourceforge.stigmata.BirthmarkElement;
 import jp.sourceforge.stigmata.BirthmarkExtractor;
 import jp.sourceforge.stigmata.BirthmarkPreprocessor;
-import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
+import jp.sourceforge.stigmata.spi.BirthmarkService;
 
 /**
  * Weighted Stack Pattern based birthmark.
@@ -20,20 +15,23 @@ import jp.sourceforge.stigmata.birthmarks.AbstractBirthmarkService;
  * Patterns,'' IEICE Transactions on Information and Systems, Vol.E91-D No.9
  * pp.2323-2332, September 2008.</li>
  * <li>Heewan Park, Hyun-il Lim, Seokwoo Choi and Taisook Han, ``A Static Java
- * Birthmark Based on Operand Stack Behaviors,'' In Proc. of 2008 International
- * Conference on Information Security and Assurance, pp.133-136, April 2008.</li>
+ * Birthmark Based on Operand Stack Behaviors,'' In Proc. of 2008
+ * International Conference on Information Security and Assurance,
+ * pp.133-136, April 2008.</li>
  * </ul>
  *
  * @author Haruaki Tamada
- * @version $Revision$
  */
-public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
-    private BirthmarkPreprocessor preprocessor = new OpcodeWeightCalculatePreprocessor(this);
-    private BirthmarkExtractor extractor = new StackPatternBasedBirthmarkExtractor(this);
-    private BirthmarkComparator comparator = new StackPatternBasedBirthmarkComparator(this);
+public class StackPatternBasedBirthmarkService implements BirthmarkService{
+    private BirthmarkPreprocessor preprocessor =
+        new OpcodeWeightCalculatePreprocessor(this);
+    private BirthmarkExtractor extractor =
+        new StackPatternBasedBirthmarkExtractor(this);
+    private BirthmarkComparator comparator =
+        new StackPatternBasedBirthmarkComparator(this);
 
     @Override
-    public String getDefaultDescription(){
+    public String getDescription(){
         return "Weighted stack pattern based birthmark";
     }
 
@@ -42,9 +40,8 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
         return false;
     }
 
-    @Override
     public boolean isExperimental(){
-        return true;
+        return false;
     }
 
     @Override
@@ -65,15 +62,5 @@ public class StackPatternBasedBirthmarkService extends AbstractBirthmarkService{
     @Override
     public BirthmarkPreprocessor getPreprocessor(){
         return preprocessor;
-    }
-
-    @Override
-    public BirthmarkElement buildBirthmarkElement(String value){
-        return new StackPatternBasedBirthmarkElement(value);
-    }
-
-    @Override
-    public String getDisplayType(){
-        return "Weighted Stack Pattern Based Birthmark";
     }
 }

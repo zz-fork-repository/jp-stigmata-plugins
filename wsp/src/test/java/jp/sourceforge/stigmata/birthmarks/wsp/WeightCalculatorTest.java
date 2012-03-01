@@ -1,9 +1,5 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
-/*
- * $Id$
- */
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

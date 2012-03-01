@@ -1,7 +1,11 @@
 package jp.sourceforge.stigmata.birthmarks.wsp;
 
+/**
+ * Weight を計算するためのクラス．
+ * 
+ * @author Haruaki Tamada
+ */
 public class WeightCalculator{
-    
     public int calculateWeight(int[][] wcs){
         int weight = 0;
         boolean[][] availableFlag = new boolean[wcs.length][wcs[0].length];
