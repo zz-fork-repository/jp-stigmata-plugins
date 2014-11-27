@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @author Haruaki Tamada
  */
 public class KGramTest{
@@ -16,6 +16,15 @@ public class KGramTest{
     public void buildKGrams(){
         plainValues = new String[] { "a", "b", "c", "d", "e", "f", "g", };
         complexValues = new String[] { "a", "b", "r", "a", "c", "a", "d", "a", "b", "r", "a", };
+    }
+
+    @Test
+    public void testStringRepresentation(){
+        KGram<String>[] kgrams = KGramBuilder.getInstance().buildKGram(plainValues, 4);
+        Assert.assertEquals("a b c d", kgrams[0].toString());
+        Assert.assertEquals("b c d e", kgrams[1].toString());
+        Assert.assertEquals("c d e f", kgrams[2].toString());
+        Assert.assertEquals("d e f g", kgrams[3].toString());
     }
 
     @Test

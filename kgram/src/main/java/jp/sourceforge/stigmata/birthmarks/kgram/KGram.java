@@ -5,8 +5,8 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
- * This class represents k-gram of the some sequence. 
- * 
+ * This class represents k-gram of the some sequence.
+ *
  * @author Haruaki TAMADA
  */
 public class KGram<T> implements Serializable{
@@ -24,7 +24,7 @@ public class KGram<T> implements Serializable{
     }
 
     /**
-     * sets k-value. 
+     * sets k-value.
      * @param kvalue the number of elements of this object.
      */
     public void setKValue(int kvalue){
@@ -44,12 +44,11 @@ public class KGram<T> implements Serializable{
      */
     @Override
     public String toString(){
-        StringBuffer buffer = new StringBuffer("{ ");
+        StringBuffer buffer = new StringBuffer();
         for(int i = 0; i < maxLength; i++){
-            if(i != 0) buffer.append(", ");
+            if(i != 0) buffer.append(" ");
             buffer.append(get(i));
         }
-        buffer.append(" }");
         return new String(buffer);
     }
 
@@ -93,14 +92,14 @@ public class KGram<T> implements Serializable{
 
     /**
      * adds value at last index.
-     * 
-     * this object is called with given 2 when following situation, 
+     *
+     * this object is called with given 2 when following situation,
      * <ul>
      *   <li>{ 1, 3, null, null } -&gt; { 1, 2, 3, null } and return 2<li>
      *   <li>{ 1, null, 3, null } -&gt; { 1, 2, 3, null } and return 1<li>
      *   <li>{ 1, 2, 3, 4 } -&gt; { 1, 2, 3, 4 } and return -1<li>
      * </ul>
-     * 
+     *
      * @param value value for addition.
      * @return added index.
      */
